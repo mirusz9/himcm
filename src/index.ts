@@ -9,6 +9,6 @@ app.get('/', (req, res) => {
 	res.send('Hello HiMCM!');
 });
 
-app.listen(process.env.PORT, () => {
-	console.log(`HiMCM app listening on port ${process.env.PORT}`);
+app.listen(6000, () => {
+	console.log(`HiMCM app listening on port ${6000}`);
 });
