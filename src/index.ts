@@ -4,11 +4,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 6060;
 
 app.get('/', (req, res) => {
 	res.send('Hello HiMCM!');
 });
 
-app.listen(6000, () => {
-	console.log(`HiMCM app listening on port ${6000}`);
+app.listen(port, () => {
+	console.log(`HiMCM app listening on port ${port}`);
 });
