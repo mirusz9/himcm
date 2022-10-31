@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = express_1.default();
-const port = process.env.PORT || 6060;
+const port = 6060;
 app.get('/', (req, res) => {
     res.send('Hello HiMCM!');
 });
