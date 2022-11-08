@@ -1,35 +1,49 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const worker_1 = __importDefault(require("./worker"));
-const drone_1 = __importDefault(require("./drone"));
-const queen_1 = __importDefault(require("./queen"));
-class Hive {
-    constructor() {
+import { honeyConsumedPerDayPerDrone, honeyConsumedPerDayPerWorker, honeyProducedPerDayPerWorker, isBloomingSeason, percentOfWorkersWorking, } from './utils.js';
+export default class Hive {
+    constructor(startDay, honey = 0) {
+        this.startDay = startDay;
         this.workers = [];
         this.drones = [];
-        this.queens = [new queen_1.default(0)];
+        this.queens = [startDay];
+        this.honey = honey;
     }
     getPopulation() {
         return this.workers.length + this.drones.length + this.queens.length;
     }
     initialize(numOfWorkers, numOfDrones) {
         for (let i = 0; i < numOfWorkers; i++) {
-            this.workers.push(new worker_1.default(0));
+            this.workers.push(this.startDay);
         }
         for (let i = 0; i < numOfDrones; i++) {
-            this.workers.push(new drone_1.default(0));
+            this.drones.push(this.startDay);
         }
     }
-    simulateDay() {
+    simulateDay(t) {
+        const survivorWorkers = [];
+        const survivorDrones = [];
         for (const worker of this.workers) {
-            worker.update();
+            // The worker produces honey
+            if (isBloomingSeason(t) && Math.random() < percentOfWorkersWorking) {
+                this.honey += honeyProducedPerDayPerWorker;
+            }
+            // The worker consumes honey
+            this.honey -= honeyConsumedPerDayPerWorker;
+            if (this.honey < 0) {
+                this.honey = 0;
+            }
+            else {
+                survivorWorkers.push(worker);
+            }
         }
         for (const drone of this.drones) {
-            drone.update();
+            // The drone consumes honey
+            this.honey -= honeyConsumedPerDayPerDrone;
+            if (this.honey < 0) {
+                this.honey = 0;
+            }
+            else {
+                survivorDrones.push(drone);
+            }
         }
     }
 }
-exports.default = Hive;

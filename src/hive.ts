@@ -1,16 +1,24 @@
-import Worker from './worker';
-import Drone from './drone';
-import Queen from './queen';
+import {
+	honeyConsumedPerDayPerDrone,
+	honeyConsumedPerDayPerWorker,
+	honeyProducedPerDayPerWorker,
+	isBloomingSeason,
+	percentOfWorkersWorking,
+} from './utils.js';
 
 export default class Hive {
-	workers: Worker[];
-	drones: Drone[];
-	queens: Queen[];
+	startDay: number;
+	workers: number[];
+	drones: number[];
+	queens: number[];
+	honey: number;
 
-	constructor() {
+	constructor(startDay: number, honey: number = 0) {
+		this.startDay = startDay;
 		this.workers = [];
 		this.drones = [];
-		this.queens = [new Queen(0)];
+		this.queens = [startDay];
+		this.honey = honey;
 	}
 
 	getPopulation() {
@@ -19,20 +27,39 @@ export default class Hive {
 
 	initialize(numOfWorkers: number, numOfDrones: number) {
 		for (let i = 0; i < numOfWorkers; i++) {
-			this.workers.push(new Worker(0));
+			this.workers.push(this.startDay);
 		}
 		for (let i = 0; i < numOfDrones; i++) {
-			this.workers.push(new Drone(0));
+			this.drones.push(this.startDay);
 		}
 	}
 
-	simulateDay() {
+	simulateDay(t: number) {
+		const survivorWorkers = [];
+		const survivorDrones = [];
 		for (const worker of this.workers) {
-			worker.update();
+			// The worker produces honey
+			if (isBloomingSeason(t) && Math.random() < percentOfWorkersWorking) {
+				this.honey += honeyProducedPerDayPerWorker;
+			}
+
+			// The worker consumes honey
+			this.honey -= honeyConsumedPerDayPerWorker;
+			if (this.honey < 0) {
+				this.honey = 0;
+			} else {
+				survivorWorkers.push(worker);
+			}
 		}
 
 		for (const drone of this.drones) {
-			drone.update();
+			// The drone consumes honey
+			this.honey -= honeyConsumedPerDayPerDrone;
+			if (this.honey < 0) {
+				this.honey = 0;
+			} else {
+				survivorDrones.push(drone);
+			}
 		}
 	}
 }
