@@ -9,6 +9,7 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = 6060;
 app.get('/', (req, res) => {
+    console.log('response');
     res.send('Hello HiMCM!');
 });
 app.listen(port, () => {

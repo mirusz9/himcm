@@ -7,7 +7,8 @@ const app = express();
 const port = 6060;
 
 app.get('/', (req, res) => {
-	res.send('Hello HiMCM!');
+	console.log('response');
+	res.send('Hello HiMCM!2');
 });
 
 app.listen(port, () => {
