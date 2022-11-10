@@ -5,9 +5,11 @@ import {
 	getWorkerMaxLifespanSummer,
 	getWorkerMaxLifespanWinter,
 	honeyConsumedPerDayPerDrone,
+	honeyConsumedPerDayPerQueen,
 	honeyConsumedPerDayPerWorker,
 	honeyProducedPerDayPerWorker,
 	isBloomingSeason,
+	isQueenLayingEggs,
 	percentageOfFertilizedEggs,
 	percentOfWorkersWorking,
 	yearLength,
@@ -23,7 +25,7 @@ export default class Hive {
 	queens: number[];
 	honey: number;
 
-	constructor(startDay: number, honey: number = 20000) {
+	constructor(startDay: number) {
 		this.startDay = startDay;
 		this.workers = [];
 		this.workersMaxLifespanSummer = [];
@@ -31,14 +33,15 @@ export default class Hive {
 		this.drones = [];
 		this.dronesMaxLifespan = [];
 		this.queens = [startDay];
-		this.honey = honey;
+		this.honey = 0;
 	}
 
 	getPopulation() {
 		return this.workers.length + this.drones.length + this.queens.length;
 	}
 
-	initialize(numOfWorkers: number, numOfDrones: number) {
+	initialize(numOfWorkers: number, numOfDrones: number, honey: number = 20000) {
+		this.honey = honey;
 		for (let i = 0; i < numOfWorkers; i++) {
 			this.workers.push(this.startDay);
 			this.workersMaxLifespanSummer.push(getWorkerMaxLifespanSummer());
@@ -58,6 +61,8 @@ export default class Hive {
 		const survivorDrones: number[] = [];
 		const survivorDronesMaxLifespan: number[] = [];
 
+		this.honey -= honeyConsumedPerDayPerQueen;
+
 		// Update the workers
 		for (let i = 0; i < this.workers.length; i++) {
 			const worker = this.workers[i];
@@ -76,8 +81,7 @@ export default class Hive {
 			if (
 				this.honey < 0 ||
 				t - worker > workerMaxLifespanWinter ||
-				t - Math.min(Math.max(worker, flowerBloomStart + years), flowerBloomEnd + years) >
-					workerMaxLifespanSummer
+				Math.min(t, flowerBloomEnd) - Math.max(worker, flowerBloomStart) > workerMaxLifespanSummer
 			) {
 				if (this.honey < 0) this.honey = 0;
 			} else {
@@ -87,6 +91,8 @@ export default class Hive {
 			}
 		}
 		this.workers = survivorWorkers;
+		this.workersMaxLifespanSummer = survivorWorkersMaxLifespanSummer;
+		this.workersMaxLifespanWinter = survivorWorkersMaxLifespanWinter;
 
 		// Update the drones
 		for (let i = 0; i < this.drones.length; i++) {
@@ -105,20 +111,22 @@ export default class Hive {
 			}
 		}
 		this.drones = survivorDrones;
+		this.dronesMaxLifespan = survivorDronesMaxLifespan;
 
 		// Queen lays eggs
-		if (isBloomingSeason(t)) {
-			const numOfNewWorkers = 1350 * percentageOfFertilizedEggs;
-			const numOfNewDrones = 1350 * (1 - percentageOfFertilizedEggs);
+		if (isQueenLayingEggs(t)) {
+			const amountOfEggsLaid = 1500 - Math.floor(t / yearLength) * 100;
+			const numOfNewWorkers = amountOfEggsLaid * percentageOfFertilizedEggs;
+			const numOfNewDrones = amountOfEggsLaid * (1 - percentageOfFertilizedEggs);
 
 			for (let i = 0; i < numOfNewWorkers; i++) {
-				this.workers.push(t);
-				this.workersMaxLifespanSummer.push(getWorkerMaxLifespanSummer());
-				this.workersMaxLifespanWinter.push(getWorkerMaxLifespanWinter());
+				this.workers.unshift(t);
+				this.workersMaxLifespanSummer.unshift(getWorkerMaxLifespanSummer());
+				this.workersMaxLifespanWinter.unshift(getWorkerMaxLifespanWinter());
 			}
 			for (let i = 0; i < numOfNewDrones; i++) {
-				this.drones.push(t);
-				this.dronesMaxLifespan.push(getDroneMaxLifespan());
+				this.drones.unshift(t);
+				this.dronesMaxLifespan.unshift(getDroneMaxLifespan());
 			}
 		}
 	}

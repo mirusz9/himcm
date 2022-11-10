@@ -1,8 +1,8 @@
 import Hive from './hive.js';
+import { monthLength, yearLength } from './utils.js';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#canvas')!;
-const population = document.querySelector<HTMLParagraphElement>('#population');
-if (!population || !canvas) throw new Error();
+if (!canvas) throw new Error();
 const data: Chart.ChartData = {
 	datasets: [
 		{ data: [], backgroundColor: '#ff0000', label: 'Population' },
@@ -14,9 +14,10 @@ const data: Chart.ChartData = {
 };
 
 let t = 0; // Time in days
+const start = new Date().getTime();
 
 const hive = new Hive(t);
-hive.initialize(20000, 7500);
+hive.initialize(20000, 0);
 
 const simulate = () => {
 	hive.simulateDay(t);
@@ -24,20 +25,43 @@ const simulate = () => {
 	const workers = hive.workers.length;
 	const drones = hive.drones.length;
 
-	data.datasets![0]?.data?.push(pop);
-	data.datasets![1]?.data?.push(workers);
-	data.datasets![2]?.data?.push(drones);
-	data.datasets![3]?.data?.push(hive.honey);
+	data.datasets![0]?.data?.push({x: t, y: pop});
+	data.datasets![1]?.data?.push({x: t, y: workers});
+	data.datasets![2]?.data?.push({x: t, y: drones});
+	data.datasets![3]?.data?.push({x: t, y: hive.honey});
 	data.labels?.push(t);
 
-	console.log(t, hive.honey, pop);
-	if (pop <= 1) return drawChart();
-	animationFrame = requestAnimationFrame(simulate);
+	if (t % (monthLength * 4) == 0) drawChart();
+	if (pop <= 1 || t > yearLength * 5) {
+		drawChart();
+		console.log('Done');
+		return;
+	}
 	t++;
+	timeout = requestAnimationFrame(simulate);
 };
 
-let animationFrame = requestAnimationFrame(simulate);
-
+let timeout = requestAnimationFrame(simulate);
+let chart: Chart;
 const drawChart = () => {
-	const chart = new Chart(canvas, { type: 'line', data });
+	console.log((new Date().getTime() - start) / 1000);
+	if (chart) chart.destroy();
+	chart = new Chart(canvas, {
+		type: 'line',
+		data,
+		options: {
+			animation: false,
+			normalized: true,
+			scales: {
+				x: {
+					type: 'linear',
+					min: 0,
+					max: t;
+				}
+			},
+			spanGaps: true,
+			showLine: false,
+			parsing: false
+		},
+	});
 };
