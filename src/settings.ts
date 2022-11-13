@@ -5,7 +5,7 @@ export const createSetting = (
 	defaultValue: number,
 	min?: number,
 	max?: number,
-	description: string
+	description?: string
 ) => {
 	const div = document.createElement('div');
 	div.classList.add('settingDiv');
@@ -21,6 +21,6 @@ export const createSetting = (
 	div.appendChild(input);
 	settingsDiv.appendChild(div);
 	return () => {
-		return input.value;
+		return +input.value;
 	};
 };

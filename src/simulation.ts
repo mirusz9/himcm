@@ -16,7 +16,7 @@ const data: Chart.ChartData = {
 let t = 0; // Time in days
 const start = new Date().getTime();
 
-const hive = new Hive(t);
+const hive = new Hive();
 hive.initialize(20000, 0);
 
 const simulate = () => {
@@ -31,8 +31,8 @@ const simulate = () => {
 	data.datasets![3]?.data?.push({x: t, y: hive.honey});
 	data.labels?.push(t);
 
-	if (t % (monthLength * 4) == 0) drawChart();
-	if (pop <= 1 || t > yearLength * 20) {
+	if (t % (monthLength * 6) == 0) drawChart();
+	if (pop <= 1 || t > yearLength * 5) {
 		drawChart();
 		console.log('Done');
 		return;

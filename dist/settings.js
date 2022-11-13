@@ -16,6 +16,6 @@ export const createSetting = (name, defaultValue, min, max, description) => {
     div.appendChild(input);
     settingsDiv.appendChild(div);
     return () => {
-        return input.value;
+        return +input.value;
     };
 };

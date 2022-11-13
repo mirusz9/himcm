@@ -1,25 +1,40 @@
 import {
-	amountOfHoneyEatenIfHiveIsFound,
-	flowerBloomEnd,
-	flowerBloomStart,
-	getDroneMaxLifespan,
+	flowerBloomStartI,
+	flowerBloomEndI,
+	honeyProducedPerDayPerWorkerI,
+	percentOfWorkersWorkingI,
+	honeyConsumedPerDayPerWorkerI,
+	honeyConsumedPerDayPerDroneI,
+	percentageOfFertilizedEggsI,
+	honeyConsumedPerDayPerQueenI,
+	maxHoneyCapacityI,
+	maxNumberOfDronesI,
+	maxNumberOfWorkersI,
+	numberOfBeesEatenPerDayI,
+	percentChanceThatHiveIsFoundPerDayI,
+	amountOfHoneyEatenIfHiveIsFoundI,
+	yearLength,
 	getWorkerMaxLifespanSummer,
 	getWorkerMaxLifespanWinter,
-	honeyConsumedPerDayPerDrone,
-	honeyConsumedPerDayPerQueen,
-	honeyConsumedPerDayPerWorker,
-	honeyProducedPerDayPerWorker,
+	getDroneMaxLifespan,
 	isBloomingSeason,
 	isQueenLayingEggs,
-	maxHoneyCapacity,
-	maxNumberOfDrones,
-	maxNumberOfWorkers,
-	numberOfBeesEatenPerDay,
-	percentageOfFertilizedEggs,
-	percentChanceThatHiveIsFoundPerDay,
-	percentOfWorkersWorking,
-	yearLength,
 } from './utils.js';
+
+let flowerBloomStart = flowerBloomStartI();
+let flowerBloomEnd = flowerBloomEndI();
+let honeyProducedPerDayPerWorker = honeyProducedPerDayPerWorkerI();
+let percentOfWorkersWorking = percentOfWorkersWorkingI();
+let honeyConsumedPerDayPerWorker = honeyConsumedPerDayPerWorkerI();
+let honeyConsumedPerDayPerDrone = honeyConsumedPerDayPerDroneI();
+let percentageOfFertilizedEggs = percentageOfFertilizedEggsI();
+let honeyConsumedPerDayPerQueen = honeyConsumedPerDayPerQueenI();
+let maxHoneyCapacity = maxHoneyCapacityI();
+let maxNumberOfDrones = maxNumberOfDronesI();
+let maxNumberOfWorkers = maxNumberOfWorkersI();
+let numberOfBeesEatenPerDay = numberOfBeesEatenPerDayI();
+let percentChanceThatHiveIsFoundPerDay = percentChanceThatHiveIsFoundPerDayI();
+let amountOfHoneyEatenIfHiveIsFound = amountOfHoneyEatenIfHiveIsFoundI();
 
 export default class Hive {
 	workers: number[];
@@ -152,7 +167,7 @@ export default class Hive {
 			numberOfWorkersEaten += Math.floor(this.workers.length / 2);
 			numberOfDronesEaten += Math.floor(this.drones.length / 2);
 		}
-		
+
 		this.workers = this.workers.splice(0, this.workers.length - numberOfWorkersEaten);
 		this.drones = this.drones.splice(0, this.drones.length - numberOfDronesEaten);
 		this.honey = Math.max(Math.min(this.honey, maxHoneyCapacity), 0);

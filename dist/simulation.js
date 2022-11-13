@@ -14,7 +14,7 @@ const data = {
 };
 let t = 0; // Time in days
 const start = new Date().getTime();
-const hive = new Hive(t);
+const hive = new Hive();
 hive.initialize(20000, 0);
 const simulate = () => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j;
@@ -27,9 +27,9 @@ const simulate = () => {
     (_f = (_e = data.datasets[2]) === null || _e === void 0 ? void 0 : _e.data) === null || _f === void 0 ? void 0 : _f.push({ x: t, y: drones });
     (_h = (_g = data.datasets[3]) === null || _g === void 0 ? void 0 : _g.data) === null || _h === void 0 ? void 0 : _h.push({ x: t, y: hive.honey });
     (_j = data.labels) === null || _j === void 0 ? void 0 : _j.push(t);
-    if (t % (monthLength * 4) == 0)
+    if (t % (monthLength * 6) == 0)
         drawChart();
-    if (pop <= 1 || t > yearLength * 20) {
+    if (pop <= 1 || t > yearLength * 5) {
         drawChart();
         console.log('Done');
         return;
