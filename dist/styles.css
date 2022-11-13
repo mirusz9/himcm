@@ -109,6 +109,10 @@ input[type=number] {
 	box-shadow: 5px 5px 40px #000000ff;
 }
 
+#overlay.hidden {
+	display: none;
+}
+
 #overlay > button {
 	position: absolute;
 	right: -7px;
@@ -138,8 +142,3 @@ input[type=number] {
 	height: 100%;
 }
 
-
-#overlay >div> canvas {
-	width: 100% !important;
-	height: calc(80vh - 20px) !important;
-}

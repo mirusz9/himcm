@@ -1,20 +1,37 @@
 import Hive from './hive.js';
 import { monthLength, yearLength } from './utils.js';
 const canvas = document.querySelector('#canvas');
+const simulationButton = document.querySelector('#run');
+const overlay = document.querySelector('#overlay');
+const closeB = document.querySelector('#close');
+closeB.addEventListener('click', close);
+simulationButton.addEventListener('click', run);
 if (!canvas)
     throw new Error();
-const data = {
-    datasets: [
-        { data: [], backgroundColor: '#A63F03', label: 'Population' },
-        { data: [], backgroundColor: '#888888', label: 'Workers' },
-        { data: [], backgroundColor: '#444444', label: 'Drones' },
-        { data: [], backgroundColor: '#D99C2B', label: 'Honey' },
-    ],
-    labels: [],
-};
-let t = 0; // Time in days
-const hive = new Hive();
-hive.initialize(20000, 0);
+let data;
+let hive;
+let t;
+let timeout;
+function close() {
+    cancelAnimationFrame(timeout);
+    overlay.classList.add('hidden');
+}
+function run() {
+    overlay.classList.remove('hidden');
+    data = {
+        datasets: [
+            { data: [], backgroundColor: '#A63F03', label: 'Population' },
+            { data: [], backgroundColor: '#888888', label: 'Workers' },
+            { data: [], backgroundColor: '#444444', label: 'Drones' },
+            { data: [], backgroundColor: '#D99C2B', label: 'Honey' },
+        ],
+        labels: [],
+    };
+    t = 0; // Time in days
+    hive = new Hive();
+    hive.initialize(20000, 0);
+    timeout = requestAnimationFrame(simulate);
+}
 const simulate = () => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     hive.simulateDay(t);
@@ -36,7 +53,6 @@ const simulate = () => {
     t++;
     timeout = requestAnimationFrame(simulate);
 };
-let timeout = requestAnimationFrame(simulate);
 let chart;
 const drawChart = () => {
     if (chart)
@@ -51,15 +67,15 @@ const drawChart = () => {
                 x: {
                     type: 'linear',
                     min: 0,
-                    max: t
-                }
+                    max: t,
+                },
             },
             spanGaps: true,
             showLine: false,
             parsing: false,
             layout: {
                 padding: 20,
-            }
+            },
         },
     });
 };

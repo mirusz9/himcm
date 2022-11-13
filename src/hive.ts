@@ -19,22 +19,23 @@ import {
 	getDroneMaxLifespan,
 	isBloomingSeason,
 	isQueenLayingEggs,
+	reset,
 } from './utils.js';
 
-let flowerBloomStart = flowerBloomStartI();
-let flowerBloomEnd = flowerBloomEndI();
-let honeyProducedPerDayPerWorker = honeyProducedPerDayPerWorkerI();
-let percentOfWorkersWorking = percentOfWorkersWorkingI();
-let honeyConsumedPerDayPerWorker = honeyConsumedPerDayPerWorkerI();
-let honeyConsumedPerDayPerDrone = honeyConsumedPerDayPerDroneI();
-let percentageOfFertilizedEggs = percentageOfFertilizedEggsI();
-let honeyConsumedPerDayPerQueen = honeyConsumedPerDayPerQueenI();
-let maxHoneyCapacity = maxHoneyCapacityI();
-let maxNumberOfDrones = maxNumberOfDronesI();
-let maxNumberOfWorkers = maxNumberOfWorkersI();
-let numberOfBeesEatenPerDay = numberOfBeesEatenPerDayI();
-let percentChanceThatHiveIsFoundPerDay = percentChanceThatHiveIsFoundPerDayI();
-let amountOfHoneyEatenIfHiveIsFound = amountOfHoneyEatenIfHiveIsFoundI();
+let flowerBloomStart: number;
+let flowerBloomEnd: number;
+let honeyProducedPerDayPerWorker: number;
+let percentOfWorkersWorking: number;
+let honeyConsumedPerDayPerWorker: number;
+let honeyConsumedPerDayPerDrone: number;
+let percentageOfFertilizedEggs: number;
+let honeyConsumedPerDayPerQueen: number;
+let maxHoneyCapacity: number;
+let maxNumberOfDrones: number;
+let maxNumberOfWorkers: number;
+let numberOfBeesEatenPerDay: number;
+let percentChanceThatHiveIsFoundPerDay: number;
+let amountOfHoneyEatenIfHiveIsFound: number;
 
 export default class Hive {
 	workers: number[];
@@ -47,6 +48,22 @@ export default class Hive {
 	honey: number;
 
 	constructor() {
+		reset()
+		flowerBloomStart = flowerBloomStartI();
+		flowerBloomEnd = flowerBloomEndI();
+		honeyProducedPerDayPerWorker = honeyProducedPerDayPerWorkerI();
+		percentOfWorkersWorking = percentOfWorkersWorkingI();
+		honeyConsumedPerDayPerWorker = honeyConsumedPerDayPerWorkerI();
+		honeyConsumedPerDayPerDrone = honeyConsumedPerDayPerDroneI();
+		percentageOfFertilizedEggs = percentageOfFertilizedEggsI();
+		honeyConsumedPerDayPerQueen = honeyConsumedPerDayPerQueenI();
+		maxHoneyCapacity = maxHoneyCapacityI();
+		maxNumberOfDrones = maxNumberOfDronesI();
+		maxNumberOfWorkers = maxNumberOfWorkersI();
+		numberOfBeesEatenPerDay = numberOfBeesEatenPerDayI();
+		percentChanceThatHiveIsFoundPerDay = percentChanceThatHiveIsFoundPerDayI();
+		amountOfHoneyEatenIfHiveIsFound = amountOfHoneyEatenIfHiveIsFoundI();
+
 		this.workers = [];
 		this.workersMaxLifespanSummer = [];
 		this.workersMaxLifespanWinter = [];

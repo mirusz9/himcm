@@ -33,6 +33,18 @@ let workerMaxLifespanLowerBoundWinter = workerMaxLifespanLowerBoundWinterI();
 let workerMaxLifespanUpperBoundWinter = workerMaxLifespanUpperBoundWinterI();
 let droneMaxLifespanLowerBound = droneMaxLifespanLowerBoundI();
 let droneMaxLifespanUpperBound = droneMaxLifespanUpperBoundI();
+export const reset = () => {
+    flowerBloomEnd = flowerBloomEndI();
+    flowerBloomStart = flowerBloomStartI();
+    queenEggLayingEnd = queenEggLayingEndI();
+    queenEggLayingStart = queenEggLayingStartI();
+    workerMaxLifespanLowerBoundSummer = workerMaxLifespanLowerBoundSummerI();
+    workerMaxLifespanUpperBoundSummer = workerMaxLifespanUpperBoundSummerI();
+    workerMaxLifespanLowerBoundWinter = workerMaxLifespanLowerBoundWinterI();
+    workerMaxLifespanUpperBoundWinter = workerMaxLifespanUpperBoundWinterI();
+    droneMaxLifespanLowerBound = droneMaxLifespanLowerBoundI();
+    droneMaxLifespanUpperBound = droneMaxLifespanUpperBoundI();
+};
 export const isBloomingSeason = (t) => {
     t = t % yearLength;
     return t >= flowerBloomStart && t < flowerBloomEnd;
