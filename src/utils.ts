@@ -14,9 +14,11 @@ const droneMaxLifespanLowerBound = 80; // Drones live for around 90 days if not 
 const droneMaxLifespanUpperBound = 100;
 const percentageOfFertilizedEggs = 0.94;
 const honeyConsumedPerDayPerQueen = 0.01925; // Grams
-const queenEggLayingStart = 60; 
+const queenEggLayingStart = 60;
 const queenEggLayingEnd = 240; // September 1
-
+const maxHoneyCapacity = 140000; // Grams
+const maxNumberOfWorkers = 80000 * percentageOfFertilizedEggs;
+const maxNumberOfDrones = 80000 * (1 - percentageOfFertilizedEggs);
 
 export const isBloomingSeason = (t: number) => {
 	t = t % yearLength;
@@ -63,4 +65,7 @@ export {
 	droneMaxLifespanUpperBound,
 	percentageOfFertilizedEggs,
 	honeyConsumedPerDayPerQueen,
+	maxHoneyCapacity,
+	maxNumberOfDrones,
+	maxNumberOfWorkers
 };

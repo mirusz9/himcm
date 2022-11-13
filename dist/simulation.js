@@ -29,7 +29,7 @@ const simulate = () => {
     (_j = data.labels) === null || _j === void 0 ? void 0 : _j.push(t);
     if (t % (monthLength * 4) == 0)
         drawChart();
-    if (pop <= 1 || t > yearLength * 5) {
+    if (pop <= 1 || t > yearLength * 20) {
         drawChart();
         console.log('Done');
         return;
