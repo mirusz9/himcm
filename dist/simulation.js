@@ -5,15 +5,14 @@ if (!canvas)
     throw new Error();
 const data = {
     datasets: [
-        { data: [], backgroundColor: '#ff0000', label: 'Population' },
-        { data: [], backgroundColor: '#00ff00', label: 'Workers' },
-        { data: [], backgroundColor: '#0000ff', label: 'Drones' },
-        { data: [], backgroundColor: '#d39f50', label: 'Honey' },
+        { data: [], backgroundColor: '#A63F03', label: 'Population' },
+        { data: [], backgroundColor: '#888888', label: 'Workers' },
+        { data: [], backgroundColor: '#444444', label: 'Drones' },
+        { data: [], backgroundColor: '#D99C2B', label: 'Honey' },
     ],
     labels: [],
 };
 let t = 0; // Time in days
-const start = new Date().getTime();
 const hive = new Hive();
 hive.initialize(20000, 0);
 const simulate = () => {
@@ -57,7 +56,10 @@ const drawChart = () => {
             },
             spanGaps: true,
             showLine: false,
-            parsing: false
+            parsing: false,
+            layout: {
+                padding: 20,
+            }
         },
     });
 };
