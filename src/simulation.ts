@@ -44,7 +44,6 @@ const simulate = () => {
 let timeout = requestAnimationFrame(simulate);
 let chart: Chart;
 const drawChart = () => {
-	console.log((new Date().getTime() - start) / 1000);
 	if (chart) chart.destroy();
 	chart = new Chart(canvas, {
 		type: 'line',

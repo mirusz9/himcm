@@ -19,6 +19,9 @@ const queenEggLayingEnd = 240; // September 1
 const maxHoneyCapacity = 140000; // Grams
 const maxNumberOfWorkers = 80000 * percentageOfFertilizedEggs;
 const maxNumberOfDrones = 80000 * (1 - percentageOfFertilizedEggs);
+const numberOfBeesEatenPerDay = 100;
+const percentChanceThatHiveIsFoundPerDay = 0.001;
+const amountOfHoneyEatenIfHiveIsFound = 50000; // Grams
 export const isBloomingSeason = (t) => {
     t = t % yearLength;
     return t >= flowerBloomStart && t < flowerBloomEnd;
@@ -37,4 +40,4 @@ export const getDroneMaxLifespan = () => {
     return (Math.floor(Math.random() * (droneMaxLifespanUpperBound - droneMaxLifespanLowerBound)) +
         droneMaxLifespanLowerBound);
 };
-export { monthLength, yearLength, flowerBloomStart, flowerBloomEnd, honeyProducedPerDayPerWorker, percentOfWorkersWorking, honeyConsumedPerDayPerWorker, honeyConsumedPerDayPerDrone, droneMaxLifespanLowerBound, droneMaxLifespanUpperBound, percentageOfFertilizedEggs, honeyConsumedPerDayPerQueen, maxHoneyCapacity, maxNumberOfDrones, maxNumberOfWorkers };
+export { monthLength, yearLength, flowerBloomStart, flowerBloomEnd, honeyProducedPerDayPerWorker, percentOfWorkersWorking, honeyConsumedPerDayPerWorker, honeyConsumedPerDayPerDrone, droneMaxLifespanLowerBound, droneMaxLifespanUpperBound, percentageOfFertilizedEggs, honeyConsumedPerDayPerQueen, maxHoneyCapacity, maxNumberOfDrones, maxNumberOfWorkers, numberOfBeesEatenPerDay, percentChanceThatHiveIsFoundPerDay, amountOfHoneyEatenIfHiveIsFound };

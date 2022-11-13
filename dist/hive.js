@@ -1,4 +1,4 @@
-import { flowerBloomEnd, flowerBloomStart, getDroneMaxLifespan, getWorkerMaxLifespanSummer, getWorkerMaxLifespanWinter, honeyConsumedPerDayPerDrone, honeyConsumedPerDayPerQueen, honeyConsumedPerDayPerWorker, honeyProducedPerDayPerWorker, isBloomingSeason, isQueenLayingEggs, maxHoneyCapacity, maxNumberOfDrones, maxNumberOfWorkers, percentageOfFertilizedEggs, percentOfWorkersWorking, yearLength, } from './utils.js';
+import { amountOfHoneyEatenIfHiveIsFound, flowerBloomEnd, flowerBloomStart, getDroneMaxLifespan, getWorkerMaxLifespanSummer, getWorkerMaxLifespanWinter, honeyConsumedPerDayPerDrone, honeyConsumedPerDayPerQueen, honeyConsumedPerDayPerWorker, honeyProducedPerDayPerWorker, isBloomingSeason, isQueenLayingEggs, maxHoneyCapacity, maxNumberOfDrones, maxNumberOfWorkers, numberOfBeesEatenPerDay, percentageOfFertilizedEggs, percentChanceThatHiveIsFoundPerDay, percentOfWorkersWorking, yearLength, } from './utils.js';
 export default class Hive {
     constructor() {
         this.workers = [];
@@ -100,6 +100,16 @@ export default class Hive {
                 this.dronesMaxLifespan.unshift(getDroneMaxLifespan());
             }
         }
-        this.honey = Math.min(this.honey, maxHoneyCapacity);
+        // Predators attack the hive
+        let numberOfWorkersEaten = numberOfBeesEatenPerDay * percentageOfFertilizedEggs;
+        let numberOfDronesEaten = numberOfBeesEatenPerDay * (1 - percentageOfFertilizedEggs);
+        if (Math.random() < percentChanceThatHiveIsFoundPerDay) {
+            this.honey -= amountOfHoneyEatenIfHiveIsFound;
+            numberOfWorkersEaten += Math.floor(this.workers.length / 2);
+            numberOfDronesEaten += Math.floor(this.drones.length / 2);
+        }
+        this.workers = this.workers.splice(0, this.workers.length - numberOfWorkersEaten);
+        this.drones = this.drones.splice(0, this.drones.length - numberOfDronesEaten);
+        this.honey = Math.max(Math.min(this.honey, maxHoneyCapacity), 0);
     }
 }
