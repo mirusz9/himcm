@@ -3,19 +3,19 @@ import { createSetting } from './settings.js';
 const monthLength = 30;
 const yearLength = monthLength * 12;
 const simulationYearsI = createSetting(
-	'The number of years the simulation should be run for',
+	'The maximum number of years the simulation should be run for',
 	10,
 	0
 );
 const updateFrequencyI = createSetting(
 	'How often the simulation recalculates the population',
-	1,
+	2,
 	1,
 	5,
 	'By default, the simulation updates every day. High values will result in a faster but less accurate simulation'
 );
-const flowerBloomStartI = createSetting('Flower Bloom Start Date', 60, 0, yearLength); // March 1
-const flowerBloomEndI = createSetting('Flower Bloom End date', 240, 0, yearLength); // September 1
+const flowerBloomStartI = createSetting('Flower Bloom Start Date', 85, 0, yearLength); // March 1
+const flowerBloomEndI = createSetting('Flower Bloom End date', 255, 0, yearLength); // September 1
 const honeyProducedPerDayPerWorkerI = createSetting(
 	'Honey produced Per Day Per Worker (grams)',
 	0.0302,
@@ -50,7 +50,7 @@ const workerMaxLifespanLowerBoundWinterI = createSetting(
 ); // Workers during the winter live 150 - 200 days
 const workerMaxLifespanUpperBoundWinterI = createSetting(
 	'Worker Max Lifespan In Winter Upper Bound',
-	220,
+	200,
 	0
 );
 const percentOfWorkersWorkingI = createSetting('Percentage of all workers working', 0.9, 0, 1);
@@ -74,30 +74,30 @@ const honeyConsumedPerDayPerQueenI = createSetting(
 ); // Grams
 const queenEggLayingStartI = createSetting(
 	'The day the queen starts laying eggs',
-	60,
+	85,
 	0,
 	yearLength
 );
-const queenEggLayingEndI = createSetting('The day the queen stops laying eggs', 240, 0, yearLength); // September 1
+const queenEggLayingEndI = createSetting('The day the queen stops laying eggs', 255, 0, yearLength); // September 1
 const maxHoneyCapacityI = createSetting(
 	'The maximum amount of honey the hive can hold (grams)',
-	140000,
+	100000,
 	0
 ); // Grams
 const maxNumberOfWorkersI = createSetting(
 	'The maximum number of workers a hive can hold',
-	80000 * percentageOfFertilizedEggsI(),
+	Math.floor(80000 * percentageOfFertilizedEggsI()),
 	0
 );
 const maxNumberOfDronesI = createSetting(
 	'The maximum number of drones a hive can hold',
-	80000 * (1 - percentageOfFertilizedEggsI()),
+	Math.floor(80000 * (1 - percentageOfFertilizedEggsI())),
 	0
 );
-const numberOfBirdsI = createSetting('The number of birds near the hive', 50, 0);
+const numberOfBirdsI = createSetting('The number of birds near the hive', 5, 0);
 const numberOfBeesEatenPerDayPerBirdI = createSetting(
 	'The number of bees eaten per bird per day',
-	2,
+	11,
 	0
 );
 const percentChanceThatHiveIsFoundPerDayI = createSetting(

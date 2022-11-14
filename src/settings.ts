@@ -26,6 +26,9 @@ export const createSetting = (
 	div.appendChild(input);
 	settingsDiv.appendChild(div);
 	return () => {
-		return +input.value;
+		let r = +input.value;
+		if (min) r = Math.max(min, r);
+		if (max) r = Math.min(max, r);
+		return r
 	};
 };

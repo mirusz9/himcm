@@ -18,6 +18,7 @@ let simulationYears: number;
 let dt: number;
 
 function close() {
+	results.innerText = '';
 	cancelAnimationFrame(timeout);
 	overlay.classList.add('hidden');
 }
@@ -54,7 +55,7 @@ const simulate = () => {
 	data.datasets![3]?.data?.push({ x: t, y: hive.honey });
 	data.labels?.push(t);
 
-	if (t % (monthLength * 6) == 0) drawChart();
+	if (t % (monthLength * 2) == 0) drawChart();
 	if (pop <= 1 || t > yearLength * simulationYears) {
 		drawChart();
 
@@ -89,6 +90,18 @@ const drawChart = () => {
 					type: 'linear',
 					min: 0,
 					max: t,
+					title: {
+						display: true,
+						text: 'Time (days)',
+					},
+				},
+				y: {
+					type: 'linear',
+					min: 0,
+					title: {
+						display: true,
+						text: 'Number of bees & Amount of honey (grams)',
+					},
 				},
 			},
 			spanGaps: true,
