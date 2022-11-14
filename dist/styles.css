@@ -8,7 +8,6 @@
 
 html {
 	background-color: #0D0D0C;
-	overflow: hidden;
 }
 
 h1 {
@@ -49,7 +48,7 @@ body > button:hover {
 	justify-content: flex-start;
 	/* overflow: auto; */
 	flex-wrap: wrap;
-	margin: 0 10vw;
+	margin: 0 10vw 30px 10vw;
 }
 
 .settingDiv {
@@ -58,23 +57,28 @@ body > button:hover {
 	margin: 5px;
 	padding: 10px 15px;
 	display: inline-block;
-	width: calc(80vw / 6 - 10px);
+	width: calc((80vw - 15px) / 6 - 10.5px);
 }
 
 @media screen and (max-width: 2000px){
 	.settingDiv{
-		width: calc(80vw / 5 - 10px);
+		width: calc((80vw - 15px) / 5 - 10.5px);
 	}
 }
 @media screen and (max-width: 1500px){
 	.settingDiv{
-		width: calc(80vw / 4 - 10px);
+		width: calc((80vw - 15px) / 4 - 10.5px);
 	}
 }
 
 .settingDiv > h4 {
 		color: #D99C2B;
-		padding-bottom: 10px;
+		padding-bottom: 5px;
+}
+
+.settingDiv > p {
+	color: darkgray;
+	font-size: 13px;
 }
 
 .settingDiv > input {
@@ -83,7 +87,8 @@ body > button:hover {
 	border: none;
 	padding: 3px 5px;
 	border-radius: 5px;
-	width: 100%
+	width: 100%;
+	margin-top: 5px;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -133,7 +138,7 @@ input[type=number] {
 	background-color: #A63F03;
 }
 
-#overlay > div {
+#overlay > #canvasDiv {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -142,3 +147,13 @@ input[type=number] {
 	height: 100%;
 }
 
+#resultsDiv {
+	display: inline;
+	z-index: 20;
+	top: 30px;
+	left: 30px;
+}
+
+#resultsDiv > h3, #results {
+	display: inline;
+}

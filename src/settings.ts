@@ -12,6 +12,11 @@ export const createSetting = (
 	const title = document.createElement('h4');
 	title.innerText = name;
 	div.appendChild(title);
+	if (description) {
+		const desc = document.createElement('p');
+		desc.innerText = description;
+		div.appendChild(desc)
+	}
 	const input = document.createElement('input');
 	input.type = 'number';
 	input.value = defaultValue.toString();

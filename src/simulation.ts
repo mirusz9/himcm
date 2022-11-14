@@ -1,10 +1,11 @@
 import Hive from './hive.js';
-import { monthLength, yearLength } from './utils.js';
+import { monthLength, yearLength, simulationYearsI, updateFrequencyI } from './utils.js';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#canvas')!;
 const simulationButton = document.querySelector<HTMLButtonElement>('#run')!;
 const overlay = document.querySelector<HTMLDivElement>('#overlay')!;
 const closeB = document.querySelector<HTMLButtonElement>('#close')!;
+const results = document.querySelector<HTMLParagraphElement>('#results')!;
 closeB.addEventListener('click', close);
 simulationButton.addEventListener('click', run);
 
@@ -13,6 +14,8 @@ let data: Chart.ChartData;
 let hive: Hive;
 let t: number;
 let timeout: number;
+let simulationYears: number;
+let dt: number;
 
 function close() {
 	cancelAnimationFrame(timeout);
@@ -20,6 +23,8 @@ function close() {
 }
 
 function run() {
+	simulationYears = simulationYearsI();
+	dt = updateFrequencyI();
 	overlay.classList.remove('hidden');
 	data = {
 		datasets: [
@@ -38,7 +43,7 @@ function run() {
 }
 
 const simulate = () => {
-	hive.simulateDay(t);
+	hive.simulateDay(t, dt);
 	const pop = hive.getPopulation();
 	const workers = hive.workers.length;
 	const drones = hive.drones.length;
@@ -50,12 +55,23 @@ const simulate = () => {
 	data.labels?.push(t);
 
 	if (t % (monthLength * 6) == 0) drawChart();
-	if (pop <= 1 || t > yearLength * 5) {
+	if (pop <= 1 || t > yearLength * simulationYears) {
 		drawChart();
+
+		results.innerText = pop <= 1 ? 'The colony died' : 'Maximum simulation time reached';
+		results.innerText +=
+			' - Number of times predators found the hive: ' + hive.numberOfPredatorAttacks;
+		const avgFlowersVisitedPerYear = Math.round(
+			hive.numberOfFlowersVisitedEachYear.reduce((sum, cur) => sum + cur, 0) /
+				hive.numberOfFlowersVisitedEachYear.length
+		);
+		results.innerText +=
+			' - Average number of flowers visited per year: ' + avgFlowersVisitedPerYear;
+
 		console.log('Done');
 		return;
 	}
-	t++;
+	t += dt;
 	timeout = requestAnimationFrame(simulate);
 };
 
