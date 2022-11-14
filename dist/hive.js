@@ -17,6 +17,7 @@ let amountOfHoneyEatenIfHiveIsFound;
 let numberOfFlowersVisitedPerDayPerBee;
 export default class Hive {
     constructor() {
+        // When the simulation starts, get all the parameters from the inputs
         reset();
         flowerBloomStart = flowerBloomStartI();
         flowerBloomEnd = flowerBloomEndI();
@@ -34,6 +35,7 @@ export default class Hive {
         percentChanceThatHiveIsFoundPerDay = percentChanceThatHiveIsFoundPerDayI();
         amountOfHoneyEatenIfHiveIsFound = amountOfHoneyEatenIfHiveIsFoundI();
         numberOfFlowersVisitedPerDayPerBee = numberOfFlowersVisitedPerDayPerBeeI();
+        // Initialize hive
         this.workers = [];
         this.workersMaxLifespanSummer = [];
         this.workersMaxLifespanWinter = [];
@@ -48,6 +50,7 @@ export default class Hive {
     getPopulation() {
         return this.workers.length + this.drones.length + 1;
     }
+    // Initialize bees and honey
     initialize(numOfWorkers, numOfDrones, honey = 20000) {
         this.honey = honey;
         for (let i = 0; i < numOfWorkers; i++) {
@@ -60,6 +63,7 @@ export default class Hive {
             this.dronesMaxLifespan.push(getDroneMaxLifespan());
         }
     }
+    // THis runs for every day
     simulateDay(t, dt) {
         const year = Math.floor(t / yearLength);
         const years = year * yearLength;
@@ -68,8 +72,10 @@ export default class Hive {
         const survivorWorkersMaxLifespanWinter = [];
         const survivorDrones = [];
         const survivorDronesMaxLifespan = [];
+        // Record the number of flowers visited
         if (this.numberOfFlowersVisitedEachYear[year] === undefined)
             this.numberOfFlowersVisitedEachYear.push(0);
+        // The queen consumes honey
         this.honey -= honeyConsumedPerDayPerQueen * dt;
         // Update the workers
         for (let i = 0; i < Math.min(this.workers.length, maxNumberOfWorkers); i++) {
@@ -86,8 +92,7 @@ export default class Hive {
             // The bee dies if there wasn't enough honey to consume, or reaches death naturally
             if (this.honey < 0 ||
                 t - worker > workerMaxLifespanWinter ||
-                Math.min(t, flowerBloomEnd + years) - Math.max(worker, flowerBloomStart + years) >
-                    workerMaxLifespanSummer) {
+                Math.min(t, flowerBloomEnd + years) - Math.max(worker, flowerBloomStart + years) > workerMaxLifespanSummer) {
                 if (this.honey < 0)
                     this.honey = 0;
             }
@@ -120,12 +125,14 @@ export default class Hive {
         }
         this.drones = survivorDrones;
         this.dronesMaxLifespan = survivorDronesMaxLifespan;
-        // Queen lays eggs
+        // Update the queen
         if (isQueenLayingEggs(t)) {
+            // If the queen dies, a new queen is born
             if (t - this.queen > this.queenMaxLifespan) {
                 this.queen = t;
                 this.queenMaxLifespan = yearLength * (2 + Math.floor(Math.random() * 4));
             }
+            // Queen lays eggs
             const amountOfEggsLaid = 1500 - Math.floor((t - this.queen) / yearLength) * 100;
             const numOfNewWorkers = amountOfEggsLaid * percentageOfFertilizedEggs * dt;
             const numOfNewDrones = amountOfEggsLaid * (1 - percentageOfFertilizedEggs) * dt;

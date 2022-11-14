@@ -1,4 +1,5 @@
 const settingsDiv = document.querySelector('#settings');
+// Create user parameter function
 export const createSetting = (name, defaultValue, min, max, description) => {
     const div = document.createElement('div');
     div.classList.add('settingDiv');

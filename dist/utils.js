@@ -1,4 +1,5 @@
 import { createSetting } from './settings.js';
+// Create all the settings for the website
 const monthLength = 30;
 const yearLength = monthLength * 12;
 const simulationYearsI = createSetting('The maximum number of years the simulation should be run for', 10, 0);
@@ -49,6 +50,7 @@ export const reset = () => {
     droneMaxLifespanLowerBound = droneMaxLifespanLowerBoundI();
     droneMaxLifespanUpperBound = droneMaxLifespanUpperBoundI();
 };
+// Helper functions
 export const isBloomingSeason = (t) => {
     t = t % yearLength;
     return t >= flowerBloomStart && t < flowerBloomEnd;
@@ -58,13 +60,12 @@ export const isQueenLayingEggs = (t) => {
     return t >= queenEggLayingStart && t < queenEggLayingEnd;
 };
 export const getWorkerMaxLifespanSummer = () => {
-    return (Math.floor(Math.random() * (workerMaxLifespanUpperBoundSummer - workerMaxLifespanLowerBoundSummer)) + workerMaxLifespanLowerBoundSummer);
+    return Math.floor(Math.random() * (workerMaxLifespanUpperBoundSummer - workerMaxLifespanLowerBoundSummer)) + workerMaxLifespanLowerBoundSummer;
 };
 export const getWorkerMaxLifespanWinter = () => {
-    return (Math.floor(Math.random() * (workerMaxLifespanUpperBoundWinter - workerMaxLifespanLowerBoundWinter)) + workerMaxLifespanLowerBoundWinter);
+    return Math.floor(Math.random() * (workerMaxLifespanUpperBoundWinter - workerMaxLifespanLowerBoundWinter)) + workerMaxLifespanLowerBoundWinter;
 };
 export const getDroneMaxLifespan = () => {
-    return (Math.floor(Math.random() * (droneMaxLifespanUpperBound - droneMaxLifespanLowerBound)) +
-        droneMaxLifespanLowerBound);
+    return Math.floor(Math.random() * (droneMaxLifespanUpperBound - droneMaxLifespanLowerBound)) + droneMaxLifespanLowerBound;
 };
 export { monthLength, yearLength, simulationYearsI, flowerBloomStartI, flowerBloomEndI, honeyProducedPerDayPerWorkerI, percentOfWorkersWorkingI, honeyConsumedPerDayPerWorkerI, honeyConsumedPerDayPerDroneI, droneMaxLifespanLowerBoundI, droneMaxLifespanUpperBoundI, percentageOfFertilizedEggsI, honeyConsumedPerDayPerQueenI, maxHoneyCapacityI, maxNumberOfDronesI, maxNumberOfWorkersI, numberOfBeesEatenPerDayPerBirdI, numberOfBirdsI, percentChanceThatHiveIsFoundPerDayI, amountOfHoneyEatenIfHiveIsFoundI, updateFrequencyI, numberOfFlowersVisitedPerDayPerBeeI, };
